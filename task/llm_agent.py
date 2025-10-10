@@ -13,7 +13,7 @@ from task.utils.history import unpack_messages
 from task.utils.stage import StageProcessor
 
 
-class LLMAgent:
+class GeneralPurposeAgent:
 
     def __init__(
             self,

@@ -4,7 +4,7 @@ import uvicorn
 from aidial_sdk import DIALApp
 from aidial_sdk.chat_completion import ChatCompletion, Request, Response
 
-from task.llm_agent import LLMAgent
+from task.llm_agent import GeneralPurposeAgent
 from task.prompts import SYSTEM_PROMPT
 from task.tools.base import BaseTool
 from task.tools.deployment.image_generation_tool import ImageGenerationTool
@@ -20,7 +20,7 @@ DEPLOYMENT_NAME = os.getenv('DEPLOYMENT_NAME', 'gpt-4o')
 # DEPLOYMENT_NAME = os.getenv('DEPLOYMENT_NAME', 'claude-sonnet-3-7')
 
 
-class SuperAgentApplication(ChatCompletion):
+class GeneralPurposeAgentApplication(ChatCompletion):
 
     def __init__(self):
         self.tools: list[BaseTool] = []
@@ -66,7 +66,7 @@ class SuperAgentApplication(ChatCompletion):
             self.tools = await self._create_tools()
 
         with response.create_single_choice() as choice:
-            await LLMAgent(
+            await GeneralPurposeAgent(
                 endpoint=DIAL_ENDPOINT,
                 system_prompt=SYSTEM_PROMPT,
                 tools=self.tools,
@@ -80,7 +80,7 @@ class SuperAgentApplication(ChatCompletion):
 
 
 app: DIALApp = DIALApp()
-agent_app = SuperAgentApplication()
+agent_app = GeneralPurposeAgentApplication()
 app.add_chat_completion(deployment_name="general-purpose-agent", impl=agent_app)
 
 if __name__ == "__main__":
