@@ -67,7 +67,7 @@
 
 1. Add to [DIAL core config](core/config.json) dall-e-3 model:
    - Key is `dall-e-3` with such configurations:
-     - displayName = `DALL-E"`
+     - displayName = `DALL-E-3`
      - endpoint = `http://adapter-dial:5000/openai/deployments/dall-e-3/chat/completion`
      - iconUrl = `http://localhost:3001/gpt3.svg`
      - type = `chat`
@@ -137,6 +137,22 @@ Flow: <img src="py_interpreter_flow.png">
     - `What is the sin of 5682936329203?` Should call PyInterpreter and show result
     - Attach [report.csv](tests/report.csv) and ask: `I need chart bar from this data` - should get file content and then call PyInterpreter, in response should be generated file as attachment that will be able to see
 
+## Step 6
+**Multi-model**
+
+DIAL Platform provides users with Unified API to work with different models. Let's add Anthropic Sonnet model as orchestration model:
+1. Add to [DIAL core config](core/config.json) claude-sonnet-3-7:
+    - Key is `claude-sonnet-3-7` with such configurations:
+        - displayName = `Claude Sonnet 3.7`
+        - endpoint = `http://adapter-dial:5000/openai/deployments/claude-sonnet-3-7/chat/completion`
+        - iconUrl = `https://chat.lab.epam.com/themes/anthropic.svg`
+        - type = `chat`
+        - upstreams = array with dict of:
+        - endpoint = `https://ai-proxy.lab.epam.com/openai/deployments/claude-3-7-sonnet@20250219/chat/completions`
+        - key = {YOUR_DIAL_API_KEY}
+2. Change Orchestration model in [app.py](task/app.py)
+3. Restart [docker-compose](docker-compose.yml)
+4. Test how it works with Sonnet (it is quite too wordy😅)
 
 ---
 ## Finish
