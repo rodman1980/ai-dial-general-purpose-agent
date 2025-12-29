@@ -61,4 +61,19 @@ services:
       DIAL_URL: "http://core:8080"
       LOG_LEVEL: "INFO"
 
+  ddg-search:
+    image: ghcr.io/epam/duckduckgo-mcp-server:0.3.0
+    ports:
+      - "8051:8050"
+    environment:
+      LOG_LEVEL: "INFO"
+
+  python-interpreter:
+    image: ghcr.io/epam/python-mcp-server:0.3.0
+    ports:
+      - "8050:8050"
+    environment:
+      LOG_LEVEL: "INFO"
+
+
 
